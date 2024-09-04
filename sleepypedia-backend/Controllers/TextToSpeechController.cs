@@ -18,11 +18,15 @@ public class TextToSpeechController(IAmazonPolly pollyClient, IHttpClientFactory
     {
         try
         {
+            var ssmlText = $"<speak><prosody rate=\"{request.Speed}\">{request.Text}</prosody></speak>";
+
             var synthesizeSpeechRequest = new SynthesizeSpeechRequest
             {
-                Text = request.Text,
+                Text = ssmlText,
+                TextType = TextType.Ssml,
                 OutputFormat = OutputFormat.Mp3,
-                VoiceId = request.Voice
+                VoiceId = request.Voice,
+                Engine = Engine.Neural
             };
 
             using var synthesizeSpeechResponse = await _pollyClient.SynthesizeSpeechAsync(synthesizeSpeechRequest);

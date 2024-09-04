@@ -3,16 +3,14 @@ import React, { useState } from "react";
 const AmazonPollyComponent: React.FC = () => {
   const [text, setText] = useState<string>("");
   const [voice, setVoice] = useState<string>("Matthew");
+  const [speed, setSpeed] = useState<string>("slow");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const voices = [
-    "Matthew",
-    "Joanna",
-    "Ivy",
-    "Justin",
-    "Kendra",
-    "Kimberly",
-    "Salli",
+  const voices = ["Matthew", "Kendra"];
+
+  const speeds = [
+    { value: "x-slow", label: "Slow" },
+    { value: "slow", label: "Normal" },
   ];
 
   const handleTextToSpeech = async () => {
@@ -25,7 +23,7 @@ const AmazonPollyComponent: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ text, voice }),
+          body: JSON.stringify({ text, voice, speed }),
         }
       );
 
@@ -70,6 +68,20 @@ const AmazonPollyComponent: React.FC = () => {
           </option>
         ))}
       </select>
+      <div style={{ marginBottom: "10px" }}>
+        <label htmlFor="speed">Speech Speed: </label>
+        <select
+          id="speed"
+          value={speed}
+          onChange={(e) => setSpeed(e.target.value)}
+          style={{ width: "100%", padding: "10px" }}>
+          {speeds.map((s) => (
+            <option key={s.value} value={s.value}>
+              {s.label}
+            </option>
+          ))}
+        </select>
+      </div>
       <button
         onClick={handleTextToSpeech}
         disabled={isLoading}
