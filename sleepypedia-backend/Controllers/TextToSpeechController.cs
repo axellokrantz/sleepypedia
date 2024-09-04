@@ -14,7 +14,7 @@ public class TextToSpeechController(IAmazonPolly pollyClient, IHttpClientFactory
     private readonly IHttpClientFactory _clientFactory = clientFactory;
 
     [HttpPost("convert")]
-    public async Task<IActionResult> ConvertTextToSpeech([FromBody] TextToSpeechRequest request)
+    public async Task<IActionResult> ConvertTextToSpeech(TextToSpeechRequest request)
     {
         try
         {
@@ -22,7 +22,7 @@ public class TextToSpeechController(IAmazonPolly pollyClient, IHttpClientFactory
             {
                 Text = request.Text,
                 OutputFormat = OutputFormat.Mp3,
-                VoiceId = VoiceId.Matthew
+                VoiceId = request.Voice
             };
 
             using var synthesizeSpeechResponse = await _pollyClient.SynthesizeSpeechAsync(synthesizeSpeechRequest);

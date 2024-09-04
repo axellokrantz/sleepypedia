@@ -2,7 +2,18 @@ import React, { useState } from "react";
 
 const AmazonPollyComponent: React.FC = () => {
   const [text, setText] = useState<string>("");
+  const [voice, setVoice] = useState<string>("Matthew");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const voices = [
+    "Matthew",
+    "Joanna",
+    "Ivy",
+    "Justin",
+    "Kendra",
+    "Kimberly",
+    "Salli",
+  ];
 
   const handleTextToSpeech = async () => {
     setIsLoading(true);
@@ -14,7 +25,7 @@ const AmazonPollyComponent: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ text }),
+          body: JSON.stringify({ text, voice }),
         }
       );
 
@@ -49,6 +60,16 @@ const AmazonPollyComponent: React.FC = () => {
           minHeight: "100px",
         }}
       />
+      <select
+        value={voice}
+        onChange={(e) => setVoice(e.target.value)}
+        style={{ width: "100%", padding: "10px", marginBottom: "10px" }}>
+        {voices.map((v) => (
+          <option key={v} value={v}>
+            {v}
+          </option>
+        ))}
+      </select>
       <button
         onClick={handleTextToSpeech}
         disabled={isLoading}
