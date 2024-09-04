@@ -1,5 +1,11 @@
+import AmazonPolly from "./Components/AmazonPolly";
+
 function App() {
-  return <h1 className="text-red-600">HelloWorld</h1>;
+  return (
+    <div className="App">
+      <AmazonPolly />
+    </div>
+  );
 }
 
 export default App;
