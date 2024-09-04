@@ -13,7 +13,7 @@ awsOptions.Region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration[
 
 builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonPolly>();
-
+builder.Services.AddHttpClient();
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Polly Text-to-Speech API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sleepypedia API - Polly TTS & Wikipedia", Version = "v1" });
 });
 
 var app = builder.Build();
@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Polly Text-to-Speech API v1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sleepypedia API v1"));
 }
 
 app.UseHttpsRedirection();
