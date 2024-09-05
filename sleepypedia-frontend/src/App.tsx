@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <div className="relative bg-gradient-to-b from-[#13131d] to-[#1c1937] min-h-screen">
-      <Background />
+      {showWelcome && <Background />}
       <div className="relative z-10 h-full">
         {showWelcome ? (
           <WelcomeScreen onEnterApp={() => setShowWelcome(false)} />
