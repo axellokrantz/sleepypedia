@@ -1,6 +1,4 @@
-import React from "react";
-
-interface AudioControlsProps {
+interface Props {
   voice: string;
   speed: string;
   isPlaying: boolean;
@@ -11,7 +9,7 @@ interface AudioControlsProps {
   disabled: boolean;
 }
 
-const AudioControls: React.FC<AudioControlsProps> = ({
+const AudioControls = ({
   voice,
   speed,
   isPlaying,
@@ -20,15 +18,15 @@ const AudioControls: React.FC<AudioControlsProps> = ({
   onPlay,
   onStop,
   disabled,
-}) => (
+}: Props) => (
   <div className="space-y-4">
     <select
       value={voice}
       onChange={(e) => onVoiceChange(e.target.value)}
       className="w-full p-2 border border-gray-300 rounded"
       disabled={isPlaying}>
-      <option value="Matthew">Matthew</option>
-      <option value="Kendra">Kendra</option>
+      <option value="Matthew">Drowsy Dave</option>
+      <option value="Kendra">Snoozy Suzy</option>
     </select>
     <div>
       <label htmlFor="speed" className="block mb-1">

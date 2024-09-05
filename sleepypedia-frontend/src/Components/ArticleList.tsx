@@ -1,12 +1,10 @@
-import React from "react";
-
 interface WikipediaArticle {
   id: number;
   title: string;
   content: string;
 }
 
-interface ArticleListProps {
+interface Props {
   articles: WikipediaArticle[];
   selectedArticle: WikipediaArticle | null;
   onSelectArticle: (article: WikipediaArticle) => void;
@@ -14,13 +12,13 @@ interface ArticleListProps {
   isPlaying: boolean;
 }
 
-const ArticleList: React.FC<ArticleListProps> = ({
+const ArticleList = ({
   articles,
   selectedArticle,
   onSelectArticle,
   onRemoveArticle,
   isPlaying,
-}) => (
+}: Props) => (
   <div className="w-1/3 pr-4">
     <h3 className="text-lg font-bold mb-2">Article List</h3>
     <ul className="space-y-2">

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import ArticleList from "./ArticleList";
 import ArticleContent from "./ArticleContent";
 import AudioControls from "./AudioControls";
@@ -10,15 +10,13 @@ interface WikipediaArticle {
   content: string;
 }
 
-const AmazonPollyComponent: React.FC = () => {
+const AmazonPolly = () => {
   const [articles, setArticles] = useState<WikipediaArticle[]>([]);
-  const [selectedArticle, setSelectedArticle] =
-    useState<WikipediaArticle | null>(null);
+  const [selectedArticle, setSelectedArticle] = useState<WikipediaArticle | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [voice, setVoice] = useState<string>("Matthew");
   const [speed, setSpeed] = useState<string>("slow");
-  const [error, setError] = useState<string | null>(null);
 
   const audioRef = useRef<HTMLAudioElement>(new Audio());
   const currentArticleIndex = useRef(0);
@@ -27,7 +25,6 @@ const AmazonPollyComponent: React.FC = () => {
     if (isPlaying) return;
 
     setIsLoading(true);
-    setError(null);
     try {
       const response = await fetch(
         "http://localhost:5148/api/TextToSpeech/random-wikipedia"
@@ -44,7 +41,6 @@ const AmazonPollyComponent: React.FC = () => {
       setSelectedArticle(newArticle);
     } catch (error) {
       console.error("Error:", error);
-      setError("Failed to fetch random Wikipedia article");
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +59,6 @@ const AmazonPollyComponent: React.FC = () => {
   const playArticles = async () => {
     setIsPlaying(true);
     currentArticleIndex.current = 0;
-    setError(null);
     await playNextArticle();
   };
 
@@ -104,7 +99,6 @@ const AmazonPollyComponent: React.FC = () => {
       audioRef.current.play();
     } catch (error) {
       console.error("Error:", error);
-      setError("Failed to convert text to speech. Please try again.");
       setIsPlaying(false);
     }
   };
@@ -146,9 +140,8 @@ const AmazonPollyComponent: React.FC = () => {
         onStop={stopPlayback}
         disabled={articles.length === 0}
       />
-      {error && <div className="text-red-500 mt-4">{error}</div>}
     </div>
   );
 };
 
-export default AmazonPollyComponent;
+export default AmazonPolly;

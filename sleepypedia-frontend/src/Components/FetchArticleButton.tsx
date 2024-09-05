@@ -1,16 +1,10 @@
-import React from "react";
-
-interface FetchArticleButtonProps {
+interface Props {
   onClick: () => void;
   isLoading: boolean;
   isPlaying: boolean;
 }
 
-const FetchArticleButton: React.FC<FetchArticleButtonProps> = ({
-  onClick,
-  isLoading,
-  isPlaying,
-}) => (
+const FetchArticleButton = ({ onClick, isLoading, isPlaying }: Props) => (
   <button
     onClick={onClick}
     disabled={isLoading || isPlaying}
