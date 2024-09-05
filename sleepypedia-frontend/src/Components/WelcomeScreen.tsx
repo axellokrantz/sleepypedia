@@ -1,18 +1,42 @@
+import WikipediaLogo from "../assets/wikipedia-logo.png";
+import "../assets/fonts.css";
+
 interface Props {
   onEnterApp: () => void;
 }
 
 const WelcomeScreen = ({ onEnterApp }: Props) => (
-  <div className="text-white font-figtree font-regular flex flex-col items-center justify-center min-h-screen text-center">
-    <h1 className="text-4xl font-bold mb-4 ">Welcome to Sleepypedia</h1>
-    <p className="text-xl mb-8 max-w-2xl">
-      Discover random Wikipedia articles and listen to them using Amazon Polly's
-      text-to-speech technology. Explore knowledge hands-free!
+  <div className="text-white flex flex-col items-center min-h-screen text-center">
+    <img
+      src={WikipediaLogo}
+      alt="Wikipedia Logo"
+      className="w-80 mt-12 object-contain"
+    />
+    <h1 className="text-3xl mb-4 font-linux font-extralight">
+      <span className="font-figtree">
+        Welcome to{" "}
+        <span className="font-semibold text-lazy-purple">
+          Sleepypedia<span className="text-xxs align-super"> TM</span>
+        </span>
+      </span>
+      <p className="font-figtree font-semibold text-sm text-yellow-200">
+        The Night-time Ensycolopedia
+      </p>
+    </h1>
+    <p className="text-sm mb-8 max-w-md font-figtree">
+      Drift off to dreamland as we guide you through everything from the mating
+      habits of <span className="font-semibold">dust mites</span> to the history
+      of
+      <span className="font-semibold"> left-handed scissors</span>. Doze
+      peacefully to riveting detours through medieval{" "}
+      <span className="font-semibold">hat-making traditions </span> and the
+      aerodynamics of
+      <span className="font-semibold"> falling leaves.</span>
     </p>
     <button
       onClick={onEnterApp}
-      className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-      Enter App
+      className="font-figtree text-sm bg-transparent hover:bg-yellow-200 text-yellow-200 hover:text-black py-2 px-4 border border-yellow-200 hover:border-transparent rounded">
+      Enter The Dreamland
     </button>
   </div>
 );

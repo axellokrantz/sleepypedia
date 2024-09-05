@@ -7,7 +7,7 @@ const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
 
   return (
-    <div className="relative bg-gradient-to-b from-black via-slate-900 to-slate-900 min-h-screen">
+    <div className="relative bg-gradient-to-b from-[#13131d] to-[#1c1937] min-h-screen">
       <Background />
       <div className="relative z-10 h-full">
         {showWelcome ? (
