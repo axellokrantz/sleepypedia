@@ -3,10 +3,8 @@ interface Props {
 }
 
 const WelcomeScreen = ({ onEnterApp }: Props) => (
-  <div className="flex flex-col items-center justify-center min-h-screen text-center">
-    <h1 className="text-4xl font-bold mb-4 ">
-      Welcome to Wikipedia Text-to-Speech
-    </h1>
+  <div className="text-white font-figtree font-regular flex flex-col items-center justify-center min-h-screen text-center">
+    <h1 className="text-4xl font-bold mb-4 ">Welcome to Sleepypedia</h1>
     <p className="text-xl mb-8 max-w-2xl">
       Discover random Wikipedia articles and listen to them using Amazon Polly's
       text-to-speech technology. Explore knowledge hands-free!
