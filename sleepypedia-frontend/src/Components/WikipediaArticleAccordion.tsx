@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import CrossIcon from "../assets/Icons/CrossIcon";
+import { useState } from "react";
+import CrossIcon from "../assets/icons/CrossIcon";
 
 interface WikipediaArticle {
   id: number;
@@ -13,11 +13,11 @@ interface Props {
   isPlaying: boolean;
 }
 
-const WikipediaArticleAccordion: React.FC<Props> = ({
+const WikipediaArticleAccordion = ({
   articles,
   onRemoveArticle,
   isPlaying,
-}) => {
+}: Props) => {
   const [openArticleId, setOpenArticleId] = useState<number | null>(null);
 
   const handleToggle = (id: number) => {
@@ -26,21 +26,24 @@ const WikipediaArticleAccordion: React.FC<Props> = ({
 
   return (
     <div className="w-full font-figtree">
-      <h3 className="text-lg font-linux mb-2">Article Playlist</h3>
+      <h3 className="font-figtree mb-2 text-white text-sm">Article Playlist</h3>
       <div className="join join-vertical w-full">
         {articles.map((article) => (
           <div key={article.id} className="rounded-lg mb-2 overflow-hidden">
             <div className="flex items-center bg-[#1c1c2d] h-11">
-              <button
-                onClick={() => onRemoveArticle(article.id)}
-                disabled={isPlaying}
-                className={`btn btn-ghost btn-sm p-0 hover:bg-transparent h-11 w-11 flex items-center justify-center ${
-                  isPlaying
-                    ? "opacity-50 cursor-not-allowed"
-                    : "text-white hover:text-gray-600"
-                }`}>
-                <CrossIcon />
-              </button>
+              <div className="h-11 w-11 flex items-center justify-center">
+                {isPlaying ? (
+                  <div className="text-white opacity-30">
+                    <CrossIcon />
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => onRemoveArticle(article.id)}
+                    className="btn btn-ghost btn-sm p-0 hover:bg-transparent text-white hover:text-gray-600">
+                    <CrossIcon />
+                  </button>
+                )}
+              </div>
               <div className={`collapse collapse-arrow flex-grow`}>
                 <input
                   type="checkbox"

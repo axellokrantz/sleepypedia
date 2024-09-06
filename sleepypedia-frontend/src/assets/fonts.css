@@ -4,3 +4,10 @@
     font-weight: normal;
     font-style: normal;
   }
+
+@font-face {
+  font-family: 'LinLibertine_aDRS';
+  src: url('./fonts/LinLibertine_aDRS.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

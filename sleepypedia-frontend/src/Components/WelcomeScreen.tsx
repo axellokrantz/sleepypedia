@@ -12,14 +12,14 @@ const WelcomeScreen = ({ onEnterApp }: Props) => (
       alt="Wikipedia Logo"
       className="w-80 mt-12 object-contain"
     />
-    <h1 className="text-3xl mb-4 font-linux font-extralight">
-      <span className="font-figtree">
+    <h1 className="text-3xl mb-4 font-linux">
+      <span className="font-figtree font-se">
         Welcome to{" "}
         <span className="font-semibold text-lazy-purple">
           Sleepypedia<span className="text-xxs align-super"> TM</span>
         </span>
       </span>
-      <p className="font-figtree font-semibold text-sm text-yellow-200">
+      <p className="font-linux font-semibold text-base text-yellow-200">
         The Night-time Ensycolopedia
       </p>
     </h1>
@@ -36,7 +36,7 @@ const WelcomeScreen = ({ onEnterApp }: Props) => (
     <button
       onClick={onEnterApp}
       className="font-figtree text-sm bg-transparent hover:bg-yellow-200 text-yellow-200 hover:text-black py-2 px-4 border border-yellow-200 hover:border-transparent rounded">
-      Enter The Dreamland
+      Enter Sleepypedia
     </button>
   </div>
 );

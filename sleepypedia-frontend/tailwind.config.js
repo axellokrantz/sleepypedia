@@ -7,7 +7,8 @@ module.exports = {
     extend: {
       fontFamily: {
         figtree: ['Figtree', 'sans-serif'],
-        linux: ['LinLibertine_aS', 'sans-serif'],
+        linuxlogo: ['LinLibertine_aS', 'sans-serif'],
+        linux: ['LinLibertine_aDRS', 'sans-serif'],
       },
       colors:{
         'lazy-purple': '#c6b8ff'
