@@ -1,6 +1,5 @@
-import { useState, useRef } from "react";
-import ArticleList from "./ArticleList";
-import ArticleContent from "./ArticleContent";
+import React, { useState, useRef } from "react";
+import WikipediaArticleAccordion from "./WikipediaArticleAccordion";
 import AudioControls from "./AudioControls";
 import FetchArticleButton from "./FetchArticleButton";
 
@@ -10,9 +9,8 @@ interface WikipediaArticle {
   content: string;
 }
 
-const AmazonPolly = () => {
+const AmazonPolly: React.FC = () => {
   const [articles, setArticles] = useState<WikipediaArticle[]>([]);
-  const [selectedArticle, setSelectedArticle] = useState<WikipediaArticle | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [voice, setVoice] = useState<string>("Matthew");
@@ -38,7 +36,6 @@ const AmazonPolly = () => {
         id: Date.now(),
       };
       setArticles((prevArticles) => [...prevArticles, newArticle]);
-      setSelectedArticle(newArticle);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -51,9 +48,6 @@ const AmazonPolly = () => {
     setArticles((prevArticles) =>
       prevArticles.filter((article) => article.id !== id)
     );
-    if (selectedArticle?.id === id) {
-      setSelectedArticle(null);
-    }
   };
 
   const playArticles = async () => {
@@ -69,7 +63,6 @@ const AmazonPolly = () => {
     }
 
     const article = articles[currentArticleIndex.current];
-    setSelectedArticle(article);
     try {
       const response = await fetch(
         "http://localhost:5148/api/TextToSpeech/convert",
@@ -120,15 +113,12 @@ const AmazonPolly = () => {
         isLoading={isLoading}
         isPlaying={isPlaying}
       />
-      <div className="flex mb-6">
-        <ArticleList
+      <div className="mb-6">
+        <WikipediaArticleAccordion
           articles={articles}
-          selectedArticle={selectedArticle}
-          onSelectArticle={setSelectedArticle}
           onRemoveArticle={removeArticle}
           isPlaying={isPlaying}
         />
-        <ArticleContent content={selectedArticle?.content ?? null} />
       </div>
       <AudioControls
         voice={voice}
