@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import WikipediaArticleAccordion from "./WikipediaArticleAccordion";
 import AudioControls from "./AudioControls";
 import FetchArticleButton from "./FetchArticleButton";
 import { Bs1Circle, Bs2Circle, Bs3Circle } from "react-icons/bs";
+import { useAudioPlayback } from "../hooks/useAudioPlayBack";
 
 interface WikipediaArticle {
   id: number;
@@ -13,22 +13,23 @@ interface WikipediaArticle {
 
 const AmazonPolly = () => {
   const queryClient = useQueryClient();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [voice, setVoice] = useState<string>("Matthew");
-  const [speed, setSpeed] = useState<string>("slow");
+  const initialVoice = "Matthew";
+  const initialSpeed = "slow";
 
-  const audioRef = useRef<HTMLAudioElement>(new Audio());
-  const currentArticleIndex = useRef(0);
-
-  const { data: articles = [], isLoading: isLoadingArticles } = useQuery<
-    WikipediaArticle[]
-  >({
+  const { data: articles = [], isLoading: isLoadingArticles } = useQuery<WikipediaArticle[]>({
     queryKey: ["articles"],
-    queryFn: () =>
-      fetch("http://localhost:5148/api/TextToSpeech/articles").then((res) =>
-        res.json()
-      ),
+    queryFn: () => fetch("http://localhost:5148/api/TextToSpeech/articles").then((res) => res.json()),
   });
+
+  const { 
+    isPlaying, 
+    voice, 
+    speed, 
+    playArticles, 
+    stopPlayback, 
+    setVoice, 
+    setSpeed 
+  } = useAudioPlayback(articles, initialVoice, initialSpeed);
 
   const fetchRandomArticleMutation = useMutation({
     mutationFn: () =>
@@ -41,92 +42,18 @@ const AmazonPolly = () => {
   });
 
   const removeArticleMutation = useMutation({
-    mutationFn: async (id: number) => {
-      const response = await fetch(
-        `http://localhost:5148/api/TextToSpeech/article/${id}`,
-        {
-          method: "DELETE",
+    mutationFn: (id: number) =>
+      fetch(`http://localhost:5148/api/TextToSpeech/article/${id}`, {
+        method: "DELETE",
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to delete article");
         }
-      );
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("Article not found");
-        }
-        throw new Error("Failed to delete article");
-      }
-      return true;
-    },
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
     },
-    onError: (error) => {
-      console.error("Error deleting article:", error);
-    },
   });
-
-  const handleRemoveArticle = async (id: number) => {
-    console.log("Attempting to delete article with ID:", id); // New console log
-    try {
-      await removeArticleMutation.mutateAsync(id);
-      console.log("Article successfully deleted"); // New console log
-    } catch (error) {
-      console.error("Failed to remove article:", error);
-      // You could add a toast notification here to inform the user
-    }
-  };
-
-  const playArticles = async () => {
-    setIsPlaying(true);
-    currentArticleIndex.current = 0;
-    await playNextArticle();
-  };
-
-  const playNextArticle = async () => {
-    if (currentArticleIndex.current >= articles.length) {
-      setIsPlaying(false);
-      return;
-    }
-
-    const article = articles[currentArticleIndex.current];
-    try {
-      const response = await fetch(
-        "http://localhost:5148/api/TextToSpeech/convert",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text: article.content, voice, speed }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to convert text to speech: ${response.statusText}`
-        );
-      }
-
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-
-      audioRef.current.src = audioUrl;
-      audioRef.current.onended = () => {
-        currentArticleIndex.current++;
-        playNextArticle();
-      };
-      audioRef.current.play();
-    } catch (error) {
-      console.error("Error:", error);
-      setIsPlaying(false);
-    }
-  };
-
-  const stopPlayback = () => {
-    audioRef.current.pause();
-    audioRef.current.currentTime = 0;
-    setIsPlaying(false);
-    currentArticleIndex.current = 0;
-  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-4">
@@ -157,7 +84,7 @@ const AmazonPolly = () => {
             </div>
             <WikipediaArticleAccordion
               articles={articles}
-              onRemoveArticle={handleRemoveArticle}
+              onRemoveArticle={(id) => removeArticleMutation.mutate(id)}
               isPlaying={isPlaying}
               isRemoving={removeArticleMutation.isPending}
             />
