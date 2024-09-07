@@ -20,7 +20,7 @@ const VoiceSpeedSelector: React.FC<VoiceSpeedSelectorProps> = ({
     <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
       <label
         htmlFor="voice"
-        className="block mb-2 text-sm font-medium text-opacity-10">
+        className="block mb-2 text-sm font-medium text-gray-500">
         Select a voice
       </label>
       <div className="relative">
@@ -28,7 +28,7 @@ const VoiceSpeedSelector: React.FC<VoiceSpeedSelectorProps> = ({
           id="voice"
           value={voice}
           onChange={(e) => onVoiceChange(e.target.value)}
-          className="bg-[#1c1c2d] text-white text-sm rounded-lg block w-full p-2.5 appearance-none"
+          className="bg-[#1c1c2d] text-white text-sm rounded-md block w-full p-2.5 appearance-none"
           disabled={isPlaying}>
           <option value="Matthew">Drowsy Dave</option>
           <option value="Kendra">Snoozy Suzy</option>
@@ -41,7 +41,7 @@ const VoiceSpeedSelector: React.FC<VoiceSpeedSelectorProps> = ({
     <div className="w-full sm:w-1/2">
       <label
         htmlFor="speed"
-        className="block mb-2 text-sm font-medium text-opacity-10">
+        className="block mb-2 text-sm font-medium text-gray-500">
         Speech Speed
       </label>
       <div className="relative">
@@ -49,7 +49,7 @@ const VoiceSpeedSelector: React.FC<VoiceSpeedSelectorProps> = ({
           id="speed"
           value={speed}
           onChange={(e) => onSpeedChange(e.target.value)}
-          className="bg-[#1c1c2d] text-white text-sm rounded-lg block w-full p-2.5 appearance-none"
+          className="bg-[#1c1c2d] text-white text-sm rounded-md block w-full p-2.5 appearance-none"
           disabled={isPlaying}>
           <option value="x-slow">Slow</option>
           <option value="slow">Normal</option>

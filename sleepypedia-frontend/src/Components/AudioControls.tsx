@@ -35,11 +35,11 @@ const AudioControls: React.FC<Props> = ({
         onClick={onPlay}
         disabled={disabled || isPlaying}
         className={`
-          w-full sm:w-1/4 p-2.5 text-sm font-medium rounded-lg mb-2 sm:mb-0
+          w-full sm:w-1/4 p-2.5 text-sm font-medium rounded-md mb-2 sm:mb-0
           ${
             disabled || isPlaying
-              ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-              : "bg-yellow-200 text-black hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300"
+              ? "bg-[#1c1c2d] text-gray-700 cursor-not-allowed"
+              : "bg-lazy-purple text-black hover:bg-yellow-200 focus:ring-4 focus:outline-none"
           }
         `}>
         Play All Articles
@@ -48,10 +48,10 @@ const AudioControls: React.FC<Props> = ({
         onClick={onStop}
         disabled={!isPlaying}
         className={`
-          w-full sm:w-1/4 p-2.5 text-sm font-medium rounded-lg
+          w-full sm:w-1/4 p-2.5 text-sm font-medium rounded-md
           ${
             !isPlaying
-              ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+              ? "bg-[#1c1c2d] text-gray-700 cursor-not-allowed"
               : "bg-red-600 text-white hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300"
           }
         `}>

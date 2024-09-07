@@ -26,10 +26,12 @@ const WikipediaArticleAccordion = ({
 
   return (
     <div className="w-full font-figtree">
-      <h3 className="font-figtree mb-2 text-white text-sm">Article Playlist</h3>
+      <h3 className="font-figtree mb-2 text-gray-500 text-sm">
+        Article Playlist
+      </h3>
       <div className="join join-vertical w-full">
         {articles.map((article) => (
-          <div key={article.id} className="rounded-lg mb-2 overflow-hidden">
+          <div key={article.id} className="rounded-md mb-2 overflow-hidden">
             <div className="flex items-center bg-[#1c1c2d] h-11">
               <div className="h-11 w-11 flex items-center justify-center">
                 {isPlaying ? (
@@ -50,7 +52,7 @@ const WikipediaArticleAccordion = ({
                   checked={openArticleId === article.id}
                   onChange={() => handleToggle(article.id)}
                 />
-                <div className="collapse-title text-white text-lg font-semibold flex items-center h-11 py-1">
+                <div className="collapse-title text-white text-base font-semibold flex items-center h-11 py-1">
                   <span>{article.title}</span>
                 </div>
               </div>

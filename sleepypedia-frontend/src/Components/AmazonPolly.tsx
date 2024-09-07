@@ -109,7 +109,7 @@ const AmazonPolly: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-4">
       <div className="space-y-4">
-        <div className="text-white text-lg">
+        <div className="text-white text-base">
           <Bs1Circle className="inline-block mr-2" />
           <span>Fetch random Wikipedia articles to add to your playlist.</span>
         </div>
@@ -120,7 +120,7 @@ const AmazonPolly: React.FC = () => {
         />
       </div>
       <div className="space-y-4">
-        <div className="text-white text-lg">
+        <div className="text-white text-base">
           <Bs2Circle className="inline-block mr-2" />
           <span>
             Browse through your article playlist. Expand to read content or
@@ -133,7 +133,7 @@ const AmazonPolly: React.FC = () => {
           isPlaying={isPlaying}
         />
       </div>
-      <div className="text-white text-lg">
+      <div className="text-white text-base">
         <Bs3Circle className="inline-block mr-2" />
         <span>Pick a voice and voice speed for the narration.</span>
       </div>
