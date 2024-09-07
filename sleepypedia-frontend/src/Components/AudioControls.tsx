@@ -39,7 +39,7 @@ const AudioControls: React.FC<Props> = ({
           ${
             disabled || isPlaying
               ? "bg-[#1c1c2d] text-gray-700 cursor-not-allowed"
-              : "bg-lazy-purple text-black hover:bg-yellow-200 focus:ring-4 focus:outline-none"
+              : "bg-lazy-purple text-black"
           }
         `}>
         Play All Articles
