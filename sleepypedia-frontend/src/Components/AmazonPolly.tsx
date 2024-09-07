@@ -2,6 +2,9 @@ import React, { useState, useRef } from "react";
 import WikipediaArticleAccordion from "./WikipediaArticleAccordion";
 import AudioControls from "./AudioControls";
 import FetchArticleButton from "./FetchArticleButton";
+import { Bs1Circle } from "react-icons/bs";
+import { Bs2Circle } from "react-icons/bs";
+import { Bs3Circle } from "react-icons/bs";
 
 interface WikipediaArticle {
   id: number;
@@ -104,21 +107,35 @@ const AmazonPolly: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">
-        Amazon Polly Text-to-Speech with Wikipedia Articles
-      </h2>
-      <FetchArticleButton
-        onClick={fetchRandomWikipediaArticle}
-        isLoading={isLoading}
-        isPlaying={isPlaying}
-      />
-      <div className="mb-6">
+    <div className="max-w-4xl mx-auto p-6 space-y-4">
+      <div className="space-y-4">
+        <div className="text-white text-lg">
+          <Bs1Circle className="inline-block mr-2" />
+          <span>Fetch random Wikipedia articles to add to your playlist.</span>
+        </div>
+        <FetchArticleButton
+          onClick={fetchRandomWikipediaArticle}
+          isLoading={isLoading}
+          isPlaying={isPlaying}
+        />
+      </div>
+      <div className="space-y-4">
+        <div className="text-white text-lg">
+          <Bs2Circle className="inline-block mr-2" />
+          <span>
+            Browse through your article playlist. Expand to read content or
+            remove unwanted articles.
+          </span>
+        </div>
         <WikipediaArticleAccordion
           articles={articles}
           onRemoveArticle={removeArticle}
           isPlaying={isPlaying}
         />
+      </div>
+      <div className="text-white text-lg">
+        <Bs3Circle className="inline-block mr-2" />
+        <span>Pick a voice and voice speed for the narration.</span>
       </div>
       <AudioControls
         voice={voice}
