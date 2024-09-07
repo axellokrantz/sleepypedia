@@ -1,10 +1,9 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import WikipediaArticleAccordion from "./WikipediaArticleAccordion";
 import AudioControls from "./AudioControls";
 import FetchArticleButton from "./FetchArticleButton";
-import { Bs1Circle } from "react-icons/bs";
-import { Bs2Circle } from "react-icons/bs";
-import { Bs3Circle } from "react-icons/bs";
+import { Bs1Circle, Bs2Circle, Bs3Circle } from "react-icons/bs";
 
 interface WikipediaArticle {
   id: number;
@@ -12,45 +11,68 @@ interface WikipediaArticle {
   content: string;
 }
 
-const AmazonPolly: React.FC = () => {
-  const [articles, setArticles] = useState<WikipediaArticle[]>([]);
+const AmazonPolly = () => {
+  const queryClient = useQueryClient();
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [voice, setVoice] = useState<string>("Matthew");
   const [speed, setSpeed] = useState<string>("slow");
 
   const audioRef = useRef<HTMLAudioElement>(new Audio());
   const currentArticleIndex = useRef(0);
 
-  const fetchRandomWikipediaArticle = async () => {
-    if (isPlaying) return;
+  const { data: articles = [], isLoading: isLoadingArticles } = useQuery<
+    WikipediaArticle[]
+  >({
+    queryKey: ["articles"],
+    queryFn: () =>
+      fetch("http://localhost:5148/api/TextToSpeech/articles").then((res) =>
+        res.json()
+      ),
+  });
 
-    setIsLoading(true);
-    try {
+  const fetchRandomArticleMutation = useMutation({
+    mutationFn: () =>
+      fetch("http://localhost:5148/api/TextToSpeech/random-wikipedia").then(
+        (res) => res.json()
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+    },
+  });
+
+  const removeArticleMutation = useMutation({
+    mutationFn: async (id: number) => {
       const response = await fetch(
-        "http://localhost:5148/api/TextToSpeech/random-wikipedia"
+        `http://localhost:5148/api/TextToSpeech/article/${id}`,
+        {
+          method: "DELETE",
+        }
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch random Wikipedia article");
+        if (response.status === 404) {
+          throw new Error("Article not found");
+        }
+        throw new Error("Failed to delete article");
       }
-      const data: Omit<WikipediaArticle, "id"> = await response.json();
-      const newArticle: WikipediaArticle = {
-        ...data,
-        id: Date.now(),
-      };
-      setArticles((prevArticles) => [...prevArticles, newArticle]);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return true;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+    },
+    onError: (error) => {
+      console.error("Error deleting article:", error);
+    },
+  });
 
-  const removeArticle = (id: number) => {
-    if (isPlaying) return;
-    setArticles((prevArticles) =>
-      prevArticles.filter((article) => article.id !== id)
-    );
+  const handleRemoveArticle = async (id: number) => {
+    console.log("Attempting to delete article with ID:", id); // New console log
+    try {
+      await removeArticleMutation.mutateAsync(id);
+      console.log("Article successfully deleted"); // New console log
+    } catch (error) {
+      console.error("Failed to remove article:", error);
+      // You could add a toast notification here to inform the user
+    }
   };
 
   const playArticles = async () => {
@@ -108,45 +130,54 @@ const AmazonPolly: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-4">
-      <div className="space-y-4">
-        <div className="text-white text-base">
-          <Bs1Circle className="inline-block mr-2" />
-          <span>Fetch random Wikipedia articles to add to your playlist.</span>
-        </div>
-        <FetchArticleButton
-          onClick={fetchRandomWikipediaArticle}
-          isLoading={isLoading}
-          isPlaying={isPlaying}
-        />
-      </div>
-      <div className="space-y-4">
-        <div className="text-white text-base">
-          <Bs2Circle className="inline-block mr-2" />
-          <span>
-            Browse through your article playlist. Expand to read content or
-            remove unwanted articles.
-          </span>
-        </div>
-        <WikipediaArticleAccordion
-          articles={articles}
-          onRemoveArticle={removeArticle}
-          isPlaying={isPlaying}
-        />
-      </div>
-      <div className="text-white text-base">
-        <Bs3Circle className="inline-block mr-2" />
-        <span>Pick a voice and voice speed for the narration.</span>
-      </div>
-      <AudioControls
-        voice={voice}
-        speed={speed}
-        isPlaying={isPlaying}
-        onVoiceChange={setVoice}
-        onSpeedChange={setSpeed}
-        onPlay={playArticles}
-        onStop={stopPlayback}
-        disabled={articles.length === 0}
-      />
+      {isLoadingArticles ? (
+        <div className="text-white">Loading articles...</div>
+      ) : (
+        <>
+          <div className="space-y-4">
+            <div className="text-white text-base">
+              <Bs1Circle className="inline-block mr-2" />
+              <span>
+                Fetch random Wikipedia articles to add to your playlist.
+              </span>
+            </div>
+            <FetchArticleButton
+              onClick={() => fetchRandomArticleMutation.mutate()}
+              isLoading={fetchRandomArticleMutation.isPending}
+              isPlaying={isPlaying}
+            />
+          </div>
+          <div className="space-y-4">
+            <div className="text-white text-base">
+              <Bs2Circle className="inline-block mr-2" />
+              <span>
+                Browse through your article playlist. Expand to read content or
+                remove unwanted articles.
+              </span>
+            </div>
+            <WikipediaArticleAccordion
+              articles={articles}
+              onRemoveArticle={handleRemoveArticle}
+              isPlaying={isPlaying}
+              isRemoving={removeArticleMutation.isPending}
+            />
+          </div>
+          <div className="text-white text-base">
+            <Bs3Circle className="inline-block mr-2" />
+            <span>Pick a voice and voice speed for the narration.</span>
+          </div>
+          <AudioControls
+            voice={voice}
+            speed={speed}
+            isPlaying={isPlaying}
+            onVoiceChange={setVoice}
+            onSpeedChange={setSpeed}
+            onPlay={playArticles}
+            onStop={stopPlayback}
+            disabled={articles.length === 0}
+          />
+        </>
+      )}
     </div>
   );
 };

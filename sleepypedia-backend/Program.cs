@@ -1,6 +1,8 @@
 using Amazon.Polly;
 using Amazon.Runtime;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Sleepypedia.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ awsOptions.Credentials = new BasicAWSCredentials(
     builder.Configuration["AWS:SecretKey"]
 );
 awsOptions.Region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]);
+
+builder.Services.AddDbContext<ArticleContextCollection>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonPolly>();

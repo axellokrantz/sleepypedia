@@ -11,12 +11,14 @@ interface Props {
   articles: WikipediaArticle[];
   onRemoveArticle: (id: number) => void;
   isPlaying: boolean;
+  isRemoving: boolean;
 }
 
 const WikipediaArticleAccordion = ({
   articles,
   onRemoveArticle,
   isPlaying,
+  isRemoving,
 }: Props) => {
   const [openArticleId, setOpenArticleId] = useState<number | null>(null);
 
@@ -34,7 +36,7 @@ const WikipediaArticleAccordion = ({
           <div key={article.id} className="rounded-md mb-2 overflow-hidden">
             <div className="flex items-center bg-[#1c1c2d] h-11">
               <div className="h-11 w-11 flex items-center justify-center">
-                {isPlaying ? (
+                {isPlaying || isRemoving ? (
                   <div className="text-white opacity-30">
                     <CrossIcon />
                   </div>
