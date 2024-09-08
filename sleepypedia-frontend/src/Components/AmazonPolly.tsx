@@ -2,8 +2,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import WikipediaArticleAccordion from "./WikipediaArticleAccordion";
 import AudioControls from "./AudioControls";
 import FetchArticleButton from "./FetchArticleButton";
-import { Bs1Circle, Bs2Circle, Bs3Circle } from "react-icons/bs";
-import { useAudioPlayback } from "../hooks/useAudioPlayBack";
+import { Bs1Circle, Bs2Circle, Bs3Circle, Bs4Circle } from "react-icons/bs";
+import { useAudioPlayback } from "../hooks/useAudioPlayback";
+import FireSoundToggle from "./AmbientSoundToggle";
 
 interface WikipediaArticle {
   id: number;
@@ -16,19 +17,24 @@ const AmazonPolly = () => {
   const initialVoice = "Matthew";
   const initialSpeed = "slow";
 
-  const { data: articles = [], isLoading: isLoadingArticles } = useQuery<WikipediaArticle[]>({
+  const { data: articles = [], isLoading: isLoadingArticles } = useQuery<
+    WikipediaArticle[]
+  >({
     queryKey: ["articles"],
-    queryFn: () => fetch("http://localhost:5148/api/TextToSpeech/articles").then((res) => res.json()),
+    queryFn: () =>
+      fetch("http://localhost:5148/api/TextToSpeech/articles").then((res) =>
+        res.json()
+      ),
   });
 
-  const { 
-    isPlaying, 
-    voice, 
-    speed, 
-    playArticles, 
-    stopPlayback, 
-    setVoice, 
-    setSpeed 
+  const {
+    isPlaying,
+    voice,
+    speed,
+    playArticles,
+    stopPlayback,
+    setVoice,
+    setSpeed,
   } = useAudioPlayback(articles, initialVoice, initialSpeed);
 
   const fetchRandomArticleMutation = useMutation({
@@ -91,6 +97,11 @@ const AmazonPolly = () => {
           </div>
           <div className="text-white text-base">
             <Bs3Circle className="inline-block mr-2" />
+            <span>Toggle fire ambience sound for a cozy atmosphere.</span>
+          </div>
+          <FireSoundToggle />
+          <div className="text-white text-base">
+            <Bs4Circle className="inline-block mr-2" />
             <span>Pick a voice and voice speed for the narration.</span>
           </div>
           <AudioControls
