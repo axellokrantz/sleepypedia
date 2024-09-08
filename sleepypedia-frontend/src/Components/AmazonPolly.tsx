@@ -67,6 +67,16 @@ const AmazonPolly = () => {
         <div className="text-white">Loading articles...</div>
       ) : (
         <>
+          <h1 className="mb-8 mt-4 font-linux flex justify-center">
+            <span className=" text-4xl font-medium text-lazy-purple text-center">
+              Sleepypedia
+              <span className="text-xxs align-super text-white">TM</span>
+              <span className="text-white text-4xl font-medium">
+                {" "}
+                Playlist Creator
+              </span>
+            </span>
+          </h1>
           <div className="space-y-4">
             <div className="text-white text-base">
               <Bs1Circle className="inline-block mr-2" />
@@ -97,7 +107,7 @@ const AmazonPolly = () => {
           </div>
           <div className="text-white text-base">
             <Bs3Circle className="inline-block mr-2" />
-            <span>Toggle fire ambience sound for a cozy atmosphere.</span>
+            <span>Toggle ambience sounds for a cozy atmosphere.</span>
           </div>
           <FireSoundToggle />
           <div className="text-white text-base">

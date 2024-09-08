@@ -12,18 +12,19 @@ const WelcomeScreen = ({ onEnterApp }: Props) => (
       alt="Wikipedia Logo"
       className="w-80 mt-12 object-contain"
     />
-    <h1 className="text-3xl mb-4 font-linux">
-      <span className="font-figtree font-se">
+    <h1 className="mb-4 font-linux text-4xl">
+      <span>
         Welcome to{" "}
-        <span className="font-semibold text-lazy-purple">
-          Sleepypedia<span className="text-xxs align-super"> TM</span>
+        <span className="  font-medium text-lazy-purple">
+          Sleepypedia
+          <span className="text-xxs align-super text-white">TM</span>
         </span>
       </span>
       <p className="font-linux font-semibold text-base text-yellow-200">
         The Night-time Ensycolopedia
       </p>
     </h1>
-    <p className="text-sm mb-8 max-w-md font-figtree">
+    <p className="text-base mb-8 max-w-lg font-figtree">
       Drift off to dreamland as we guide you through everything from the mating
       habits of <span className="font-semibold">dust mites</span> to the history
       of
