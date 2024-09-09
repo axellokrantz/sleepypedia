@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer className="text-xs text-gray-500 pt-6 text-center">
-      Built using Wikipedia Open API and Amazon Polly TTS. Created by{" "}
+    <footer className="text-xs text-gray-500 pt-6">
+      Built using Wikipedia Open API & Amazon Polly TTS. Created by{" "}
       <a
         href="https://github.com/axellokrantz"
         target="_blank"
