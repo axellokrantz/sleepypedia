@@ -22,7 +22,11 @@ public class TextToSpeechController(IAmazonPolly pollyClient, IHttpClientFactory
     {
         try
         {
-            var ssmlText = $"<speak><prosody rate=\"{request.Speed}\">{request.Text}</prosody></speak>";
+            var ssmlText = $@"<speak>
+            <prosody rate=""{request.Speed}"" volume=""{request.Volume}"">
+                {request.Text}
+            </prosody>
+        </speak>";
 
             var synthesizeSpeechRequest = new SynthesizeSpeechRequest
             {

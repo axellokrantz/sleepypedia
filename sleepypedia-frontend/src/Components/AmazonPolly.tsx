@@ -16,6 +16,7 @@ const AmazonPolly = () => {
   const queryClient = useQueryClient();
   const initialVoice = "Matthew";
   const initialSpeed = "slow";
+  const initialVolume = "medium";
 
   const { data: articles = [], isLoading: isLoadingArticles } = useQuery<
     WikipediaArticle[]
@@ -31,11 +32,13 @@ const AmazonPolly = () => {
     isPlaying,
     voice,
     speed,
+    volume,
     playArticles,
     stopPlayback,
     setVoice,
     setSpeed,
-  } = useAudioPlayback(articles, initialVoice, initialSpeed);
+    setVolume,
+  } = useAudioPlayback(articles, initialVoice, initialSpeed, initialVolume);
 
   const fetchRandomArticleMutation = useMutation({
     mutationFn: () =>
@@ -67,7 +70,7 @@ const AmazonPolly = () => {
         <div className="text-white">Loading articles...</div>
       ) : (
         <>
-          <h1 className="mb-8 mt-4 font-linux flex justify-center">
+          <h1 className="mb-8 font-linux flex justify-center">
             <span className=" text-4xl font-medium text-lazy-purple text-center">
               Sleepypedia
               <span className="text-xxs align-super text-white">TM</span>
@@ -112,14 +115,16 @@ const AmazonPolly = () => {
           <AmbientSoundToggle />
           <div className="text-white text-base">
             <Bs4Circle className="inline-block mr-2" />
-            <span>Pick a voice and voice speed for the narration.</span>
+            <span>Pick a voice, speed, and volume for the narration.</span>
           </div>
           <AudioControls
             voice={voice}
             speed={speed}
+            volume={volume}
             isPlaying={isPlaying}
             onVoiceChange={setVoice}
             onSpeedChange={setSpeed}
+            onVolumeChange={setVolume}
             onPlay={playArticles}
             onStop={stopPlayback}
             disabled={articles.length === 0}

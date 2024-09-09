@@ -4,9 +4,11 @@ import VoiceSpeedSelector from "./VoiceSpeedSelector";
 interface Props {
   voice: string;
   speed: string;
+  volume: string;
   isPlaying: boolean;
   onVoiceChange: (voice: string) => void;
   onSpeedChange: (speed: string) => void;
+  onVolumeChange: (volume: string) => void;
   onPlay: () => void;
   onStop: () => void;
   disabled: boolean;
@@ -15,9 +17,11 @@ interface Props {
 const AudioControls: React.FC<Props> = ({
   voice,
   speed,
+  volume,
   isPlaying,
   onVoiceChange,
   onSpeedChange,
+  onVolumeChange,
   onPlay,
   onStop,
   disabled,
@@ -26,9 +30,11 @@ const AudioControls: React.FC<Props> = ({
     <VoiceSpeedSelector
       voice={voice}
       speed={speed}
+      volume={volume}
       isPlaying={isPlaying}
       onVoiceChange={onVoiceChange}
       onSpeedChange={onSpeedChange}
+      onVolumeChange={onVolumeChange}
     />
     <div className="flex flex-col sm:flex-row sm:space-x-4">
       <button
@@ -41,7 +47,8 @@ const AudioControls: React.FC<Props> = ({
               ? "bg-[#1c1c2d] text-gray-700 cursor-not-allowed"
               : "bg-lazy-purple text-black"
           }
-        `}>
+        `}
+      >
         Play All Articles
       </button>
       <button
@@ -54,7 +61,8 @@ const AudioControls: React.FC<Props> = ({
               ? "bg-[#1c1c2d] text-gray-700 cursor-not-allowed"
               : "bg-red-600 text-white hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300"
           }
-        `}>
+        `}
+      >
         Stop
       </button>
     </div>

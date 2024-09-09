@@ -9,11 +9,13 @@ interface WikipediaArticle {
 export const useAudioPlayback = (
   articles: WikipediaArticle[],
   initialVoice: string,
-  initialSpeed: string
+  initialSpeed: string,
+  initialVolume: string
 ) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [voice, setVoice] = useState(initialVoice);
   const [speed, setSpeed] = useState(initialSpeed);
+  const [volume, setVolume] = useState(initialVolume);
   const audioRef = useRef<HTMLAudioElement>(new Audio());
   const currentArticleIndex = useRef(0);
 
@@ -34,7 +36,12 @@ export const useAudioPlayback = (
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ text: article.content, voice, speed }),
+          body: JSON.stringify({
+            text: article.content,
+            voice,
+            speed,
+            volume,
+          }),
         }
       );
 
@@ -57,7 +64,7 @@ export const useAudioPlayback = (
       console.error("Error:", error);
       setIsPlaying(false);
     }
-  }, [articles, voice, speed]);
+  }, [articles, voice, speed, volume]);
 
   useEffect(() => {
     playNextArticleRef.current = playNextArticle;
@@ -80,9 +87,11 @@ export const useAudioPlayback = (
     isPlaying,
     voice,
     speed,
+    volume,
     playArticles,
     stopPlayback,
     setVoice,
     setSpeed,
+    setVolume,
   };
 };
