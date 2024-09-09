@@ -5,6 +5,7 @@ import FetchArticleButton from "./FetchArticleButton";
 import { Bs1Circle, Bs2Circle, Bs3Circle, Bs4Circle } from "react-icons/bs";
 import { useAudioPlayback } from "../hooks/useAudioPlayback";
 import AmbientSoundToggle from "./AmbientSoundToggle";
+import Footer from "./Footer";
 
 interface WikipediaArticle {
   id: number;
@@ -129,6 +130,7 @@ const AmazonPolly = () => {
             onStop={stopPlayback}
             disabled={articles.length === 0}
           />
+          <Footer />
         </>
       )}
     </div>
