@@ -72,8 +72,9 @@ public class TextToSpeechController(IAmazonPolly pollyClient, IHttpClientFactory
             var page = pages.EnumerateObject().First().Value;
             var title = page.GetProperty("title").GetString();
             var extract = page.GetProperty("extract").GetString();
+            var filteredContent = FilterReferences(extract!);
 
-            var article = new Article { Title = title, Content = extract };
+            var article = new Article { Title = title, Content = filteredContent };
             _context.Add(article);
             await _context.SaveChangesAsync();
             return Ok(article);
@@ -109,4 +110,18 @@ public class TextToSpeechController(IAmazonPolly pollyClient, IHttpClientFactory
             return StatusCode(500, $"An error occurred while deleting the article: {ex.Message}");
         }
     }
+
+    private string FilterReferences(string content)
+    {
+        if (string.IsNullOrEmpty(content))
+        {
+            return content;
+        }
+
+        int referenceIndex = content.IndexOf("References", StringComparison.Ordinal);
+        return referenceIndex != -1
+            ? content.Substring(0, referenceIndex).Trim()
+            : content;
+    }
+
 }
