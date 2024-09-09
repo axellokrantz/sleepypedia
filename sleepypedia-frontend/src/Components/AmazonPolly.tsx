@@ -4,7 +4,7 @@ import AudioControls from "./AudioControls";
 import FetchArticleButton from "./FetchArticleButton";
 import { Bs1Circle, Bs2Circle, Bs3Circle, Bs4Circle } from "react-icons/bs";
 import { useAudioPlayback } from "../hooks/useAudioPlayback";
-import FireSoundToggle from "./AmbientSoundToggle";
+import AmbientSoundToggle from "./AmbientSoundToggle";
 
 interface WikipediaArticle {
   id: number;
@@ -109,7 +109,7 @@ const AmazonPolly = () => {
             <Bs3Circle className="inline-block mr-2" />
             <span>Toggle ambience sounds for a cozy atmosphere.</span>
           </div>
-          <FireSoundToggle />
+          <AmbientSoundToggle />
           <div className="text-white text-base">
             <Bs4Circle className="inline-block mr-2" />
             <span>Pick a voice and voice speed for the narration.</span>

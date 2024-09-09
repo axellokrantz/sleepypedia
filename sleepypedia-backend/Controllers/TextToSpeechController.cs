@@ -63,13 +63,13 @@ public class TextToSpeechController(IAmazonPolly pollyClient, IHttpClientFactory
             fullArticleResponse.EnsureSuccessStatusCode();
             var fullArticleContent = await fullArticleResponse.Content.ReadAsStringAsync();
             var fullArticleJson = JsonSerializer.Deserialize<JsonElement>(fullArticleContent);
-            
+
             var pages = fullArticleJson.GetProperty("query").GetProperty("pages");
             var page = pages.EnumerateObject().First().Value;
             var title = page.GetProperty("title").GetString();
             var extract = page.GetProperty("extract").GetString();
 
-            var article = new Article {Title = title, Content = extract};
+            var article = new Article { Title = title, Content = extract };
             _context.Add(article);
             await _context.SaveChangesAsync();
             return Ok(article);

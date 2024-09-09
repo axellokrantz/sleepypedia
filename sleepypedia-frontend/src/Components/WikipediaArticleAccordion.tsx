@@ -1,6 +1,5 @@
 import { useState } from "react";
 import CrossIcon from "../assets/icons/CrossIcon";
-
 interface WikipediaArticle {
   id: number;
   title: string;
@@ -43,7 +42,8 @@ const WikipediaArticleAccordion = ({
                 ) : (
                   <button
                     onClick={() => onRemoveArticle(article.id)}
-                    className="btn btn-ghost btn-sm p-0 hover:bg-transparent text-white hover:text-gray-600">
+                    className="btn btn-ghost btn-sm p-0 hover:bg-transparent text-white hover:text-gray-600"
+                  >
                     <CrossIcon />
                   </button>
                 )}
@@ -61,7 +61,7 @@ const WikipediaArticleAccordion = ({
             </div>
             {openArticleId === article.id && (
               <div className="bg-[#26273b] p-8">
-                <p>{article.content}</p>
+                <p className="text-white">{article.content}</p>
               </div>
             )}
           </div>
