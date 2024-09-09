@@ -17,7 +17,7 @@ const AmazonPolly = () => {
   const queryClient = useQueryClient();
   const initialVoice = "Matthew";
   const initialSpeed = "slow";
-  const initialVolume = "medium";
+  const initialVolume = "soft";
 
   const { data: articles = [], isLoading: isLoadingArticles } = useQuery<
     WikipediaArticle[]

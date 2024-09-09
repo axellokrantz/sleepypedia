@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RiArrowDownSLine } from "react-icons/ri";
 
 interface VoiceSpeedSelectorProps {
@@ -11,6 +11,62 @@ interface VoiceSpeedSelectorProps {
   onVolumeChange: (volume: string) => void;
 }
 
+interface DropdownProps {
+  label: string;
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (value: string) => void;
+  disabled: boolean;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({
+  label,
+  value,
+  options,
+  onChange,
+  disabled,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="w-full">
+      <label className="block mb-2 text-sm font-medium text-gray-500">
+        {label}
+      </label>
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="bg-[#1c1c2d] text-white text-sm rounded-md block w-full p-2.5 text-left appearance-none focus:outline-none"
+          disabled={disabled}
+        >
+          {options.find((option) => option.value === value)?.label || value}
+          <RiArrowDownSLine
+            size={24}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2"
+          />
+        </button>
+        {isOpen && !disabled && (
+          <div className="absolute z-10 w-full mt-1 bg-[#1c1c2d] border border-gray-700 text-white rounded-md shadow-lg">
+            {options.map((option) => (
+              <div
+                key={option.value}
+                className="px-4 py-2 cursor-pointer hover:bg-gray-700"
+                onClick={() => {
+                  onChange(option.value);
+                  setIsOpen(false);
+                }}
+              >
+                {option.label}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const VoiceSpeedSelector: React.FC<VoiceSpeedSelectorProps> = ({
   voice,
   speed,
@@ -21,78 +77,36 @@ const VoiceSpeedSelector: React.FC<VoiceSpeedSelectorProps> = ({
   onVolumeChange,
 }) => (
   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-    <div className="w-full">
-      <label
-        htmlFor="voice"
-        className="block mb-2 text-sm font-medium text-gray-500"
-      >
-        Select a voice
-      </label>
-      <div className="relative">
-        <select
-          id="voice"
-          value={voice}
-          onChange={(e) => onVoiceChange(e.target.value)}
-          className="bg-[#1c1c2d] text-white text-sm rounded-md block w-full p-2.5 appearance-none"
-          disabled={isPlaying}
-        >
-          <option value="Matthew">Drowsy Dave</option>
-          <option value="Kendra">Snoozy Suzy</option>
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white">
-          <RiArrowDownSLine size={24} />
-        </div>
-      </div>
-    </div>
-    <div className="w-full">
-      <label
-        htmlFor="speed"
-        className="block mb-2 text-sm font-medium text-gray-500"
-      >
-        Speech Speed
-      </label>
-      <div className="relative">
-        <select
-          id="speed"
-          value={speed}
-          onChange={(e) => onSpeedChange(e.target.value)}
-          className="bg-[#1c1c2d] text-white text-sm rounded-md block w-full p-2.5 appearance-none"
-          disabled={isPlaying}
-        >
-          <option value="x-slow">Slow</option>
-          <option value="slow">Normal</option>
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white">
-          <RiArrowDownSLine size={24} />
-        </div>
-      </div>
-    </div>
-    <div className="w-full">
-      <label
-        htmlFor="volume"
-        className="block mb-2 text-sm font-medium text-gray-500"
-      >
-        Volume
-      </label>
-      <div className="relative">
-        <select
-          id="volume"
-          value={volume}
-          onChange={(e) => onVolumeChange(e.target.value)}
-          className="bg-[#1c1c2d] text-white text-sm rounded-md block w-full p-2.5 appearance-none"
-          disabled={isPlaying}
-        >
-          <option value="x-soft">Very Soft</option>
-          <option value="soft">Soft</option>
-          <option value="medium">Medium</option>
-          <option value="loud">Loud</option>
-          <option value="x-loud">Very Loud</option>
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white">
-          <RiArrowDownSLine size={24} />
-        </div>
-      </div>
-    </div>
+    <Dropdown
+      label="Select a voice"
+      value={voice}
+      options={[
+        { value: "Matthew", label: "Drowsy Dave" },
+        { value: "Kendra", label: "Snoozy Suzy" },
+      ]}
+      onChange={onVoiceChange}
+      disabled={isPlaying}
+    />
+    <Dropdown
+      label="Speech Speed"
+      value={speed}
+      options={[
+        { value: "x-slow", label: "Slow" },
+        { value: "slow", label: "Normal" },
+      ]}
+      onChange={onSpeedChange}
+      disabled={isPlaying}
+    />
+    <Dropdown
+      label="Volume"
+      value={volume}
+      options={[
+        { value: "x-soft", label: "Soft" },
+        { value: "soft", label: "Normal" },
+      ]}
+      onChange={onVolumeChange}
+      disabled={isPlaying}
+    />
   </div>
 );
 
