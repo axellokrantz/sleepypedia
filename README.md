@@ -15,3 +15,13 @@ Sleepypedia is a unique application that helps you drift off to dreamland while 
 2. **Listen**: Let Amazon Polly's soothing voices narrate you into unconsciousness.
 3. **Customize**: Adjust voice, speed, and volume to find your ideal sleep-inducing narration.
 4. **Sleep**: Drift off to sleep, possibly dreaming about obscure historical facts or rare species of ferns.
+
+## Tech Stack
+### Frontend
+
+React, TypeScript, Tailwind & DaisyUI, Vite
+
+### Backend
+
+C# .NET, SQLite, Amazon Polly SDK, Entity Framework Core
+
