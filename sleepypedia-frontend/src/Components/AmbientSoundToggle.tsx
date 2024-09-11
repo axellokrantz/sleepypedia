@@ -15,7 +15,7 @@ const AmbientSoundToggle: React.FC = () => {
   const [ambientVolume, setAmbientVolume] = useState(0.5);
 
   const FIRE_VOLUME_REDUCTION = 0.5;
-  const RAIN_VOLUME_BOOST = 1.2;
+  const RAIN_VOLUME_BOOST = 1.5;
   const AMBIENT_VOLUME_ADJUSTMENT = 0.5;
 
   useEffect(() => {
