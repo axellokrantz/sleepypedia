@@ -11,7 +11,7 @@ Sleepypedia is a unique application that helps you drift off to dreamland while 
 
 ## How It Works
 
-1. Fetch: Retrieve random Wikipedia articles at the touch of a button.
-2. Listen: Let Amazon Polly's soothing voices narrate you into unconsciousness.
-3. Customize: Adjust settings to achieve the perfect balance of interesting and boring.
-4. Sleep: Drift off to sleep, possibly dreaming about obscure historical facts or rare species of ferns.
+1. **Fetch**: Retrieve random Wikipedia articles at the touch of a button.
+2. **Listen**: Let Amazon Polly's soothing voices narrate you into unconsciousness.
+3. **Customize**: Adjust settings to achieve the perfect balance of interesting and boring.
+4. **Sleep**: Drift off to sleep, possibly dreaming about obscure historical facts or rare species of ferns.
